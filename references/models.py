@@ -11,6 +11,7 @@ class Author(models.Model):
 class Reference(models.Model):
     authors = models.ManyToManyField(Author, through="AuthorOrder")
     year = models.IntegerField()
+    title = models.CharField(max_length=200, blank=True, null=True)
     journal = models.CharField(max_length=100, blank=True, null=True)
     volume = models.IntegerField(blank=True, null=True)
     issue = models.IntegerField(blank=True, null=True)
@@ -33,5 +34,11 @@ class AuthorOrder(models.Model):
     reference = models.ForeignKey(Reference)
     author = models.ForeignKey(Author)
     orderNumber = models.IntegerField()
+
+    def __unicode__(self):
+        return ''
+
     class Meta:
         ordering = ["reference", "orderNumber"]
+        verbose_name = "author"
+        verbose_name_plural = "authors"
