@@ -12,6 +12,7 @@ class AuthorAdmin(admin.ModelAdmin):
     inlines = [AuthorOrderInline]
 
 class ReferenceAdmin(admin.ModelAdmin):
+    search_fields = []
     inlines = [AuthorOrderInline]
 
 # Register your models here.
