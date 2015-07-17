@@ -1,23 +1,27 @@
 from django.conf.urls import url, include
 from django.contrib import admin
-from django.contrib.auth.models import User
+from taxonomy.models import Taxon, Rank
+from references.models import Reference
 from rest_framework import routers, serializers, viewsets
 from ajax_select import urls as ajax_select_urls
 
 # Serializers define the API representation.
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class TaxonSerializer(serializers.HyperlinkedModelSerializer):
+    rank = serializers.PrimaryKeyRelatedField(queryset=Rank.objects.all())
+    ref = serializers.PrimaryKeyRelatedField(queryset=Reference.objects.all(), required=False)
+    parent = serializers.PrimaryKeyRelatedField(queryset=Taxon.objects.all(), required=False)
     class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff')
+        model = Taxon
+        fields = ('url', 'name', 'rank', 'ref', 'parent')
 
 # ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class TaxonViewSet(viewsets.ModelViewSet):
+    queryset = Taxon.objects.all()
+    serializer_class = TaxonSerializer
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
+router.register(r'taxa', TaxonViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
