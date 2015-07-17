@@ -117,6 +117,5 @@ REST_FRAMEWORK = {
 
 AJAX_LOOKUP_CHANNELS = {
     'taxonLookup'  : {'model': 'taxonomy.Taxon', 'search_field': 'name'},
-    'authorLookup'  : {'model': 'references.Author', 'search_field': 'lastName'},
-
+    'authorLookup'   : ('references.lookups', 'AuthorLookup')
 }
