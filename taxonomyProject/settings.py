@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'taxonomy',
     'rest_framework',
     'references',
+    'ajax_select',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -111,4 +112,10 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ]
+}
+
+AJAX_LOOKUP_CHANNELS = {
+    'taxonLookup'  : {'model': 'taxonomy.Taxon', 'search_field': 'name'},
+    'authorLookup'  : {'model': 'references.Author', 'search_field': 'lastName'},
+
 }

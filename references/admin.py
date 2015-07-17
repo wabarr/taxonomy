@@ -1,17 +1,19 @@
 from django.contrib import admin
 from references.models import *
-
+from ajax_select import make_ajax_form
+from ajax_select.admin import AjaxSelectAdmin
 
 
 class AuthorOrderInline(admin.TabularInline):
     model = AuthorOrder
     extra = 2
+    form = make_ajax_form(AuthorOrder, {"author":"authorLookup"})
 
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ['id', '__unicode__']
     inlines = [AuthorOrderInline]
 
-class ReferenceAdmin(admin.ModelAdmin):
+class ReferenceAdmin(AjaxSelectAdmin):
     search_fields = []
     inlines = [AuthorOrderInline]
 
