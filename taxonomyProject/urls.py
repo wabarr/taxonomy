@@ -2,7 +2,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from taxonomy.models import Taxon, Rank
 from references.models import Reference
-from rest_framework import routers, serializers, viewsets, generics
+from rest_framework import routers, serializers, viewsets
+from rest_framework.authtoken import views
 from ajax_select import urls as ajax_select_urls
 
 # Serializers define the API representation.
@@ -36,5 +37,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/lookups/', include(ajax_select_urls)),
     url(r'^', include(router.urls)),
+    url(r'^api-token-auth/', views.obtain_auth_token),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
