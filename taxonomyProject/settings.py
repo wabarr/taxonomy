@@ -43,10 +43,12 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'references',
     'ajax_select',
+    'corsheaders',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -125,3 +127,5 @@ AJAX_LOOKUP_CHANNELS = {
     'taxonLookup'  : {'model': 'taxonomy.Taxon', 'search_field': 'name'},
     'authorLookup'   : ('references.lookups', 'AuthorLookup')
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
