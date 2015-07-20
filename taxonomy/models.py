@@ -63,3 +63,4 @@ class Taxon(models.Model):
 
     class Meta:
         verbose_name_plural = "taxa"
+        unique_together = ["rank", "name"]
