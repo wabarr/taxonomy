@@ -40,7 +40,10 @@ class Taxon(models.Model):
     def clean(self, *args, **kwargs):
         if self.parent:
             if not self.parent.rank.sortOrder == self.rank.sortOrder - 1:
-                raise ValidationError("Parent taxon should be next rank up the hierarchy....try '{0}'".format(Rank.objects.all().get(sortOrder=self.rank.sortOrder - 1).name.upper()))
+                raise ValidationError("You are entering a taxon of rank '{0}' so parent taxon must be of rank '{1}'".format(
+                    Rank.objects.all().get(sortOrder=self.rank.sortOrder).name.upper(),
+                    Rank.objects.all().get(sortOrder=self.rank.sortOrder - 1).name.upper())
+                )
         if self.parent is None and self.rank.name <> 'kingdom':
             raise ValidationError("A taxon with no parent must be at the rank of 'kingdom'.")
 
