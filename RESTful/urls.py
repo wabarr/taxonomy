@@ -26,6 +26,24 @@ class TaxonList(viewsets.ModelViewSet):
             queryset = queryset.filter(name__icontains=name)
         return queryset
 
+
+class FullTaxonHierarchySerializer(serializers.HyperlinkedModelSerializer):
+    fullTaxonomy = serializers.CharField()
+
+    class Meta:
+        model = Taxon
+        fields = ('id','fullTaxonomy')
+
+class FullTaxonHierarchyList(viewsets.ModelViewSet):
+    serializer_class = FullTaxonHierarchySerializer
+
+    def get_queryset(self):
+        queryset = Taxon.objects.all()
+        name = self.request.query_params.get('name', None)
+        if name is not None:
+            queryset = queryset.filter(name__icontains=name)
+        return queryset
+
 class ReferenceSerializer(serializers.HyperlinkedModelSerializer):
     label = serializers.CharField(source='__unicode__')
     value = serializers.IntegerField(source='id')
@@ -69,6 +87,7 @@ router.register(r'taxa', TaxonList, base_name="taxon")
 router.register(r'references', ReferenceList, base_name="reference")
 router.register(r'authors', AuthorList, base_name="author")
 router.register(r'author_orders', AuthorOrderList, base_name="author_order")
+router.register(r'full_taxon_hierarchy', FullTaxonHierarchyList, base_name="full_taxon_hierarchy")
 
 urlpatterns = [
     url(r'^', include(router.urls)),
