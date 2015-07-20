@@ -27,9 +27,11 @@ class TaxonList(viewsets.ModelViewSet):
         return queryset
 
 class ReferenceSerializer(serializers.HyperlinkedModelSerializer):
+    label = serializers.CharField(source='__unicode__')
+    value = serializers.IntegerField(source='id')
     class Meta:
         model = Reference
-        fields = ('id', '__unicode__')
+        fields = ('label', 'value')
 
 class ReferenceList(viewsets.ModelViewSet):
     serializer_class = ReferenceSerializer
