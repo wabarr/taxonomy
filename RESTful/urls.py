@@ -35,7 +35,13 @@ class ReferenceSerializer(serializers.HyperlinkedModelSerializer):
 
 class ReferenceList(viewsets.ModelViewSet):
     serializer_class = ReferenceSerializer
-    queryset = Reference.objects.all()
+    # set up to work with jQuery autocomplete, which sends a query string called "term"
+    def get_queryset(self):
+        queryset = Reference.objects.all()
+        term = self.request.query_params.get('term', None)
+        if term is not None:
+            queryset = queryset.filter(authors__lastName__icontains=term)
+        return queryset
 
 class AuthorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
