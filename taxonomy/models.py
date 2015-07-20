@@ -1,6 +1,7 @@
 from django.db import models
 from references.models import Reference
 from django.core.validators import ValidationError
+from django.core.exceptions import ObjectDoesNotExist
 
 class Rank(models.Model):
     sortOrder = models.IntegerField()
@@ -38,16 +39,21 @@ class Taxon(models.Model):
             return [element.__str__() for element in reversed(parents) if element is not None]
 
     def clean(self, *args, **kwargs):
-        if self.rank is None:
-            raise ValidationError("Taxon must have a rank. This is a required field.")
         if self.parent:
-            if not self.parent.rank.sortOrder == self.rank.sortOrder - 1:
-                raise ValidationError("You are entering a taxon of rank '{0}' so parent taxon must be of rank '{1}'".format(
-                    Rank.objects.all().get(sortOrder=self.rank.sortOrder).name.upper(),
-                    Rank.objects.all().get(sortOrder=self.rank.sortOrder - 1).name.upper())
-                )
-        if self.parent is None and self.rank.name <> 'kingdom':
-            raise ValidationError("A taxon with no parent must be at the rank of 'kingdom'.")
+            try:
+                if not self.parent.rank.sortOrder == self.rank.sortOrder - 1:
+                    raise ValidationError("You are entering a taxon of rank '{0}' so parent taxon must be of rank '{1}'".format(
+                        Rank.objects.all().get(sortOrder=self.rank.sortOrder).name.upper(),
+                        Rank.objects.all().get(sortOrder=self.rank.sortOrder - 1).name.upper())
+                    )
+            except ObjectDoesNotExist:
+                raise ValidationError("Taxon must have a rank. This is a required field.")
+
+        try:
+            if self.parent is None and self.rank.name <> 'kingdom':
+                raise ValidationError("A taxon with no parent must be at the rank of 'kingdom'.")
+        except ObjectDoesNotExist:
+                raise ValidationError("Taxon must have a rank. This is a required field.")
 
         super(Taxon, self).clean(*args, **kwargs)
 
