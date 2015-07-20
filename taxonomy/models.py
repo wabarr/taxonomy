@@ -38,6 +38,8 @@ class Taxon(models.Model):
             return [element.__str__() for element in reversed(parents) if element is not None]
 
     def clean(self, *args, **kwargs):
+        if self.rank is None:
+            raise ValidationError("Taxon must have a rank. This is a required field.")
         if self.parent:
             if not self.parent.rank.sortOrder == self.rank.sortOrder - 1:
                 raise ValidationError("You are entering a taxon of rank '{0}' so parent taxon must be of rank '{1}'".format(
