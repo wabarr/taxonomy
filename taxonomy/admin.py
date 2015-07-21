@@ -41,7 +41,7 @@ class RankAdmin(admin.ModelAdmin):
 class TaxonAdmin(AjaxSelectAdmin):
 
     list_display =  ["order", "family", "subfamily", "tribe", "genus", "species"]
-    list_filter = [OrderFilter,FamilyFilter]
+    list_filter = ['rank',OrderFilter,FamilyFilter]
     form = make_ajax_form(Taxon, {"parent":"taxonLookup"})
 
     def __init__(self,*args,**kwargs):
