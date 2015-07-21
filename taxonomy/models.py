@@ -3,6 +3,16 @@ from references.models import Reference
 from django.core.validators import ValidationError
 from django.core.exceptions import ObjectDoesNotExist
 
+class TaxonManager(models.Manager):
+    def childrenOf(self, taxonID):
+        children = []
+        parent = Taxon.objects.get(pk=taxonID)
+        for taxon in Taxon.objects.all():
+            #if the name of the taxon in question appears in the full taxonomy of a taxon, include it in the filter
+            if parent.name in taxon.fullTaxonomy().values():
+                children.append(taxon.id)
+        return Taxon.objects.filter(id__in=children)
+
 class Rank(models.Model):
     sortOrder = models.IntegerField()
     name = models.CharField(max_length=30)
@@ -19,9 +29,13 @@ class Taxon(models.Model):
     name = models.CharField(max_length=30)
     parent = models.ForeignKey('self', null=True, blank=True)
     ref = models.ForeignKey(Reference, null=True, blank=True)
-
+    objects = TaxonManager()
     def __unicode__(self):
-        return self.name + " (" + str(self.rank).upper() + ")"
+        #return self.name + " (" + str(self.rank).upper() + ")"
+        if self.rank.name == "species":
+            return " ".join([self.parent.name, self.name])
+        else:
+            return self.name
 
     def fullTaxonomy(self):
         #returns dictionary of all parents
@@ -37,60 +51,70 @@ class Taxon(models.Model):
                 current = current.parent
             return parents
 
+    #TODO abstract all the different classes, the following doesn't work yet
+    # def getSpecifiedParent(self, rankID):
+    #     rankObject = Rank.objects.get(pk=rankID)
+    #     fullTaxDict = self.fullTaxonomy()
+    #     try:
+    #         parent = Taxon.objects.get(rank=rankObject, name=fullTaxDict[rankObject.name])
+    #     except ObjectDoesNotExist:
+    #         order = None
+    #     return order
+
     def taxClass(self):
         fullTaxDict = self.fullTaxonomy()
         try:
-            taxClass = fullTaxDict["class"]
+            taxClass = Taxon.objects.get(rank__name="taxClass", name=fullTaxDict["taxClass"])
         except:
-            taxClass = ""
+            taxClass = None
         return taxClass
 
     def order(self):
         fullTaxDict = self.fullTaxonomy()
         try:
-            order = fullTaxDict["order"]
+            order = Taxon.objects.get(rank__name="order", name=fullTaxDict["order"])
         except:
-            order = ""
+            order = None
         return order
-
-    def subfamily(self):
-        fullTaxDict = self.fullTaxonomy()
-        try:
-            subfamily = fullTaxDict["subfamily"]
-        except:
-            subfamily = ""
-        return subfamily
 
     def family(self):
         fullTaxDict = self.fullTaxonomy()
         try:
-            family = fullTaxDict["family"]
+            family = Taxon.objects.get(rank__name="family", name=fullTaxDict["family"])
         except:
-            family = ""
+            family = None
         return family
+
+    def subfamily(self):
+        fullTaxDict = self.fullTaxonomy()
+        try:
+            subfamily = Taxon.objects.get(rank__name="subfamily", name=fullTaxDict["subfamily"])
+        except:
+            subfamily = None
+        return subfamily
 
     def tribe(self):
         fullTaxDict = self.fullTaxonomy()
         try:
-            tribe = fullTaxDict["tribe"]
+            tribe = Taxon.objects.get(rank__name="tribe", name=fullTaxDict["tribe"])
         except:
-            tribe = ""
+            tribe = None
         return tribe
 
     def genus(self):
         fullTaxDict = self.fullTaxonomy()
         try:
-            genus = fullTaxDict["genus"]
+            genus = Taxon.objects.get(rank__name="genus", name=fullTaxDict["genus"])
         except:
-            genus = ""
+            genus = None
         return genus
 
     def species(self):
         fullTaxDict = self.fullTaxonomy()
         try:
-            species = fullTaxDict["species"]
+            species = Taxon.objects.get(rank__name="species", name=fullTaxDict["species"])
         except:
-            species = ""
+            species = None
         return species
 
     def clean(self, *args, **kwargs):
