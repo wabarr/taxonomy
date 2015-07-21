@@ -29,6 +29,8 @@ class Taxon(models.Model):
     name = models.CharField(max_length=30)
     parent = models.ForeignKey('self', null=True, blank=True)
     ref = models.ForeignKey(Reference, null=True, blank=True)
+    extant = models.NullBooleanField(default=True)
+    notes = models.TextField(null=True, blank=True)
     objects = TaxonManager()
     def __unicode__(self):
         #return self.name + " (" + str(self.rank).upper() + ")"
