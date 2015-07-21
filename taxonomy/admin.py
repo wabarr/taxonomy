@@ -8,7 +8,7 @@ class RankAdmin(admin.ModelAdmin):
     list_editable = ["name", "sortOrder", "parent"]
 
 class TaxonAdmin(AjaxSelectAdmin):
-    list_display = ["name", "rank", "parent", "ref"]
+    list_display = ["taxClass", "order", "family", "subfamily", "tribe", "genus", "species"]
     list_filter = ["rank"]
     form = make_ajax_form(Taxon, {"parent":"taxonLookup"})
 

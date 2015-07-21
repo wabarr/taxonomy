@@ -24,19 +24,74 @@ class Taxon(models.Model):
         return self.name + " (" + str(self.rank).upper() + ")"
 
     def fullTaxonomy(self):
-        #returns ordered list of all parent taxa
+        #returns dictionary of all parents
+        parents = {}
         if self.parent is None:
-            return [self.__str__()]
-
+            parents[self.rank.name] = self.name
+            return parents
         else:
-            parents = []
-            parents.append(self)
+            parents[self.rank.name] = self.name
             current = self.parent
             while current is not None:
-                parents.append(current)
+                parents[current.rank.name] = current.name
                 current = current.parent
+            return parents
 
-            return [element.__str__() for element in reversed(parents) if element is not None]
+    def taxClass(self):
+        fullTaxDict = self.fullTaxonomy()
+        try:
+            taxClass = fullTaxDict["class"]
+        except:
+            taxClass = ""
+        return taxClass
+
+    def order(self):
+        fullTaxDict = self.fullTaxonomy()
+        try:
+            order = fullTaxDict["order"]
+        except:
+            order = ""
+        return order
+
+    def subfamily(self):
+        fullTaxDict = self.fullTaxonomy()
+        try:
+            subfamily = fullTaxDict["subfamily"]
+        except:
+            subfamily = ""
+        return subfamily
+
+    def family(self):
+        fullTaxDict = self.fullTaxonomy()
+        try:
+            family = fullTaxDict["family"]
+        except:
+            family = ""
+        return family
+
+    def tribe(self):
+        fullTaxDict = self.fullTaxonomy()
+        try:
+            tribe = fullTaxDict["tribe"]
+        except:
+            tribe = ""
+        return tribe
+
+    def genus(self):
+        fullTaxDict = self.fullTaxonomy()
+        try:
+            genus = fullTaxDict["genus"]
+        except:
+            genus = ""
+        return genus
+
+    def species(self):
+        fullTaxDict = self.fullTaxonomy()
+        try:
+            species = fullTaxDict["species"]
+        except:
+            species = ""
+        return species
 
     def clean(self, *args, **kwargs):
         if self.parent:
