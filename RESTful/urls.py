@@ -81,9 +81,22 @@ class AuthorOrderList(viewsets.ModelViewSet):
     serializer_class = AuthorOrderSerializer
     queryset = AuthorOrder.objects.all()
 
+class RankSerializer(serializers.HyperlinkedModelSerializer):
+    label = serializers.CharField(source="name")
+    value = serializers.CharField(source="id")
+    class Meta:
+        model = Rank
+        fields = ('label', 'value')
+
+class RankList(viewsets.ModelViewSet):
+    serializer_class = RankSerializer
+    queryset = Rank.objects.all()
+
+
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
 router.register(r'taxa', TaxonList, base_name="taxon")
+router.register(r'ranks', RankList, base_name="rank")
 router.register(r'references', ReferenceList, base_name="reference")
 router.register(r'authors', AuthorList, base_name="author")
 router.register(r'author_orders', AuthorOrderList, base_name="author_order")
