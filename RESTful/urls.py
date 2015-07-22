@@ -90,7 +90,12 @@ class RankSerializer(serializers.HyperlinkedModelSerializer):
 
 class RankList(viewsets.ModelViewSet):
     serializer_class = RankSerializer
-    queryset = Rank.objects.all()
+    def get_queryset(self):
+        queryset = Rank.objects.all()
+        term = self.request.query_params.get('term', None)
+        if term is not None:
+            queryset = queryset.filter(name__icontains=term)
+        return queryset
 
 
 # Routers provide an easy way of automatically determining the URL conf.
