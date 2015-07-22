@@ -24,9 +24,9 @@ class TaxonList(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Taxon.objects.all()
-        name = self.request.query_params.get('name', None)
+        name = self.request.query_params.get('term', None)
         if name is not None:
-            queryset = queryset.filter(name__icontains=name)
+            queryset = queryset.filter(name__icontains=term)
         return queryset
 
 
