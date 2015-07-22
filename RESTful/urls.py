@@ -10,10 +10,13 @@ class TaxonSerializer(serializers.HyperlinkedModelSerializer):
     rank = serializers.PrimaryKeyRelatedField(queryset=Rank.objects.all())
     ref = serializers.PrimaryKeyRelatedField(queryset=Reference.objects.all(), required=False)
     parent = serializers.PrimaryKeyRelatedField(queryset=Taxon.objects.all(), required=False)
+    #label and value are not required, but are used by jquery autocomplete
+    label = serializers.CharField(source="__unicode__", required=False)
+    value = serializers.IntegerField(source="id", required=False)
 
     class Meta:
         model = Taxon
-        fields = ('url', 'name', 'rank', 'ref', 'parent')
+        fields = ('url', 'name', 'rank', 'ref', 'parent', 'label', 'value')
 
 # ViewSets define the view behavior.
 class TaxonList(viewsets.ModelViewSet):
