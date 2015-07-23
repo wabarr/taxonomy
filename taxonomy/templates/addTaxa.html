@@ -1,0 +1,62 @@
+{% extends "html5up_fractal_base.html" %}
+{% load staticfiles %}
+
+{% block extrastyles %}
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href={% static "ajax_select/css/ajax_select.css" %} />
+    <link rel="stylesheet" href={% static "css/tweaks.css" %} />
+{% endblock %}
+
+{% block doc_load %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) {
+            $("#arrowLink").click( function(e) {
+                e.preventDefault();
+                $('html, body').animate({
+        	        scrollTop: $("#addTaxaLabel").offset().top
+				}, 1000);
+			});
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+			<header id="header">
+				<div class="content">
+					<h1>Taxonomy</h1>
+                    <p>Use the form below <a class="icon fa-4x fa-arrow-down" id="arrowLink"><span class="label">Form</span></a> to add information about taxa. </p>
+
+				</div>
+			</header>
+
+		<!-- One -->
+			<section id="one" class="wrapper style2 special">
+				<header class="major">
+					<h2 id="addTaxaLabel">Add Taxa</h2>
+				</header>
+				<form id="entryform" method="post">
+                    <div class="row uniform">
+                        <div class="2u"></div>
+                        <div class="8u">{% csrf_token %}
+                            {{ form.as_p }}
+                        </div>
+                        <div class="2u"></div>
+                    </div>
+                    <div class="row uniform">
+                        <div class="2u"></div>
+                        <div class="8u">
+                            <ul class="actions">
+                                <li><input type="submit" value="Submit" class="special button big" /></li>
+                            </ul>
+                        </div>
+                        <div class="2u"></div>
+                    </div>
+				</form>
+			</section>
+{% endblock %}
+
+{% block extrascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src={% static "ajax_select/js/ajax_select.js" %}> </script>
+{% endblock %}

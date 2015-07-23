@@ -1,5 +1,7 @@
-from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView
+from taxonomy.forms import TaxonForm
 
-class AddTaxa(TemplateView):
-
-    template_name = 'index.html'
+class AddTaxa(CreateView):
+    form_class = TaxonForm
+    template_name = 'addTaxa.html'
+    success_url = '/home/'

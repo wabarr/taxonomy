@@ -126,7 +126,9 @@ REST_FRAMEWORK = {
 
 AJAX_LOOKUP_CHANNELS = {
     'taxonLookup'  : {'model': 'taxonomy.Taxon', 'search_field': 'name'},
-    'authorLookup'   : ('references.lookups', 'AuthorLookup')
+    'authorLookup'   : ('references.lookups', 'AuthorLookup'),
+    'referenceLookup' : ('references.lookups', 'ReferenceLookup'),
+    'rankLookup' : {'model': 'taxonomy.Rank', 'search_field': 'name'},
 }
 
 CORS_ORIGIN_ALLOW_ALL = True

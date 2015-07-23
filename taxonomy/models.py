@@ -27,7 +27,7 @@ class Rank(models.Model):
 class Taxon(models.Model):
     rank = models.ForeignKey(Rank)
     name = models.CharField(max_length=30)
-    parent = models.ForeignKey('self', null=True, blank=True)
+    parent = models.ForeignKey('self', null=True, blank=True, verbose_name="parent")
     ref = models.ForeignKey(Reference, null=True, blank=True)
     extant = models.NullBooleanField(default=True)
     notes = models.TextField(null=True, blank=True)
