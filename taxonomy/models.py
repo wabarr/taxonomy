@@ -31,6 +31,7 @@ class Taxon(models.Model):
     ref = models.ForeignKey(Reference, null=True, blank=True)
     extant = models.NullBooleanField(default=True)
     notes = models.TextField(null=True, blank=True)
+    lastModified = models.DateTimeField(auto_now=True, null=True)
     objects = TaxonManager()
     def __unicode__(self):
         #return self.name + " (" + str(self.rank).upper() + ")"
