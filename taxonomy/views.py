@@ -8,9 +8,12 @@ class AddTaxa(CreateView):
     success_url = '/home/'
 
     def get_initial(self):
-        lastModified = Taxon.objects.all().order_by("-lastModified")[0]
-        return {
-            "parent": lastModified.parent.id,
-            "rank": lastModified.rank.id,
-            "ref": lastModified.ref.id
-        }
+        try:
+            lastModified = Taxon.objects.all().order_by("-lastModified")[0]
+            return {
+                "parent": lastModified.parent.id,
+                "rank": lastModified.rank.id,
+                "ref": lastModified.ref.id
+            }
+        except:
+            return None
