@@ -4,3 +4,10 @@
     list-style-type: none;
     border-radius: 3px;
 }
+
+.results_on_deck {
+    background-color: #4696e5;
+    color: white;
+    border-radius: 3px;
+    padding-top: 12px;
+}
