@@ -1,6 +1,8 @@
 from django.views.generic.edit import CreateView
 from taxonomy.forms import TaxonForm
 from taxonomy.models import Taxon
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
 
 class AddTaxa(CreateView):
     form_class = TaxonForm
@@ -31,3 +33,7 @@ class AddTaxa(CreateView):
                 "rank": rank,
                 "ref": ref
             }
+
+    @method_decorator(permission_required("Taxon.can_add", "/admin/login/"))
+    def dispatch(self, *args, **kwargs):
+        return super(AddTaxa, self).dispatch(*args, **kwargs)
