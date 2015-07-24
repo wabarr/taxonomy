@@ -11,3 +11,7 @@
     border-radius: 3px;
 }
 
+.padded {
+    padding-left:25px;
+    padding-right:25px;
+}

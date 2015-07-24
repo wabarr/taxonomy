@@ -22,13 +22,6 @@
 
 {% block content %}
 <!-- Header -->
-			<header id="header">
-				<div class="content">
-					<h1>Taxonomy</h1>
-                    <p>Use the form below <a class="icon fa-4x fa-arrow-down" id="arrowLink"><span class="label">Form</span></a> to add information about taxa. </p>
-
-				</div>
-			</header>
 
 		<!-- One -->
 			<section id="one" class="wrapper style2 special">
@@ -37,10 +30,10 @@
 				</header>
 				<form id="entryform" method="post">
                     <div class="row uniform"><div class="12u">{{ form.non_field_errors }}</div></div>
-                    <div class="row uniform">{% csrf_token %}
+                    <div class="row uniform padded">{% csrf_token %}
 
                         <div class="3u">
-                            <label for="{{ form.name.id_for_label }}">Taxon name:</label>
+                            <label for="{{ form.name.id_for_label }}">Taxon:</label>
                             {{ form.name }}
                             {{ form.name.errors }}
                         </div>
