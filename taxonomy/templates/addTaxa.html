@@ -36,12 +36,35 @@
 					<h2 id="addTaxaLabel">Add Taxa</h2>
 				</header>
 				<form id="entryform" method="post">
-                    <div class="row uniform">
-                        <div class="2u"></div>
-                        <div class="8u">{% csrf_token %}
-                            {{ form.as_p }}
+                    <div class="row uniform"><div class="12u">{{ form.non_field_errors }}</div></div>
+                    <div class="row uniform">{% csrf_token %}
+
+                        <div class="3u">
+                            <label for="{{ form.name.id_for_label }}">Taxon name:</label>
+                            {{ form.name }}
+                            {{ form.name.errors }}
                         </div>
-                        <div class="2u"></div>
+                        <div class="2u">
+                            <label for="{{ form.parent.id_for_label }}">Parent:</label>
+                            {{ form.parent }}
+                            {{ form.parent.errors }}
+                        </div>
+                        <div class="3u">
+                            <label for="{{ form.ref.id_for_label }}">Reference:</label>
+                            {{ form.ref }}
+                            {{ form.ref.errors }}
+                        </div>
+                        <div class="2u">
+                            <label for="{{ form.rank.id_for_label }}">Rank:</label>
+                            {{ form.rank }}
+                            {{ form.rank.errors }}
+                        </div>
+                        <div class="2u">
+                            <label for="{{ form.extant.id_for_label }}">Extant?:</label>
+                            {{ form.extant }}
+                            {{ form.extant.errors }}
+                        </div>
+
                     </div>
                     <div class="row uniform">
                         <div class="2u"></div>
