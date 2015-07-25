@@ -15,7 +15,8 @@
         <link rel="shortcut icon" type="image/png" href="/static/images/favicon.ico" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="{% static "assets/css/ie8.css" %}" /><![endif]-->
 		<!--[if lte IE 9]><link rel="stylesheet" href="{% static "assets/css/ie9.css" %}" /><![endif]-->
-	    {% block extrastyles %}{% endblock %}
+	    <link rel="stylesheet" href={% static "css/tweaks.css" %} />
+        {% block extrastyles %}{% endblock %}
         {% block doc_load %}{% endblock %}
     </head>
 	<body id="top">

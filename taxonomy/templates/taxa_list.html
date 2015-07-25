@@ -12,8 +12,8 @@
         <h2 id="addTaxaLabel">Taxa</h2>
     </header>
 
-    <div class="row ">
-        <div class="12u ">
+    <div class="row paddedsides">
+        <div class="12u">
             <table class="compact hover" id="search-table">
             <thead>
             <tr>
@@ -58,6 +58,7 @@
                         "url": ajaxurl,
                         "dataSrc": ""
                     } ,
+                    "pageLength": 100,
                     "columns": [
                         { "data": "id" },
                         { "data": "taxClass" },
@@ -67,8 +68,16 @@
                         { "data": "tribe" },
                         { "data": "genus" },
                         { "data": "species" }
-                        ]
+                        ],
+                    "order": [[ 1, 'asc' ], [ 2, 'asc' ],[ 3, 'asc' ],[ 4, 'asc' ],[ 5, 'asc' ],[ 6, 'asc' ]],
+                    "oLanguage": {
+                                "sSearch": "Search",
 
+                                "sZeroRecords": "Nobody home, sorry!",
+                    },
+                     "columnDefs": [
+                        { "visible": false, "targets": 0 }
+                     ],
                 });
             };
     </script>

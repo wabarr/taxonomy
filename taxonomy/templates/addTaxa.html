@@ -4,7 +4,6 @@
 {% block extrastyles %}
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href={% static "ajax_select/css/ajax_select.css" %} />
-    <link rel="stylesheet" href={% static "css/tweaks.css" %} />
 {% endblock %}
 
 {% block doc_load %}
@@ -30,7 +29,7 @@
 				</header>
 				<form id="entryform" method="post">
                     <div class="row uniform"><div class="12u">{{ form.non_field_errors }}</div></div>
-                    <div class="row uniform padded">{% csrf_token %}
+                    <div class="row uniform paddedsides">{% csrf_token %}
 
                         <div class="3u">
                             <label for="{{ form.name.id_for_label }}">Taxon:</label>
