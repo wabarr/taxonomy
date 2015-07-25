@@ -11,7 +11,7 @@ class TaxonList(TemplateView):
 class AddTaxa(CreateView):
     form_class = TaxonForm
     template_name = 'addTaxa.html'
-    success_url = '/home/'
+    success_url = '/taxa/add/'
 
     def get_initial(self):
 
