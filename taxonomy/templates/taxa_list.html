@@ -50,36 +50,40 @@
 {% block extrascripts %}
     <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
     <script>
-        var ajaxurl = '/API/full_taxon_hierarchy/?format=json'
+    var ajaxurl = '/API/full_taxon_hierarchy/?format=json'
 
-            function makeDataTable(ajaxurl) {
-                searchtable = $("#search-table").DataTable({
-                    "ajax": {
-                        "url": ajaxurl,
-                        "dataSrc": ""
-                    } ,
-                    "pageLength": 100,
-                    "columns": [
-                        { "data": "id" },
-                        { "data": "taxClass" },
-                        { "data": "order" },
-                        { "data": "family" },
-                        { "data": "subfamily" },
-                        { "data": "tribe" },
-                        { "data": "genus" },
-                        { "data": "species" }
-                        ],
-                    "order": [[ 1, 'asc' ], [ 2, 'asc' ],[ 3, 'asc' ],[ 4, 'asc' ],[ 5, 'asc' ],[ 6, 'asc' ]],
-                    "oLanguage": {
-                                "sSearch": "Search",
+    function makeDataTable(ajaxurl) {
+        searchtable = $("#search-table").DataTable({
+            "ajax": {
+                "url": ajaxurl,
+                "dataSrc": ""
+            } ,
+            "pageLength": 100,
+            "columns": [
+                { "data": "id" },
+                { "data": "taxClass" },
+                { "data": "order" },
+                { "data": "family" },
+                { "data": "subfamily" },
+                { "data": "tribe" },
+                { "data": "genus" },
+                { "data": "species" }
+                ],
+            "order": [[ 1, 'asc' ], [ 2, 'asc' ],[ 3, 'asc' ],[ 4, 'asc' ],[ 5, 'asc' ],[ 6, 'asc' ]],
+            "oLanguage": {
+                        "sSearch": "Search",
 
-                                "sZeroRecords": "Nobody home, sorry!",
-                    },
-                     "columnDefs": [
-                        { "visible": false, "targets": 0 }
-                     ],
-                });
-            };
+                        "sZeroRecords": "Nobody home, sorry!",
+            },
+             "columnDefs": [
+                { "visible": false, "targets": 0 }
+             ],
+        });
+        setInterval( function () {
+            searchtable.ajax.reload();
+        }, 10000 );
+    };
+
     </script>
 {% endblock %}
 
