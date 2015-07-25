@@ -123,11 +123,10 @@ class Taxon(models.Model):
     def clean(self, *args, **kwargs):
         if self.parent:
             try:
-                if not self.parent.rank.sortOrder == self.rank.sortOrder - 1:
-                    raise ValidationError("You are entering a taxon of rank '{0}' so parent taxon must be of rank '{1}'".format(
-                        Rank.objects.all().get(sortOrder=self.rank.sortOrder).name.upper(),
-                        Rank.objects.all().get(sortOrder=self.rank.sortOrder - 1).name.upper())
-                    )
+                if not self.parent.rank.sortOrder < self.rank.sortOrder:
+                    raise ValidationError("You are entering a taxon of rank '{0}'. Parent taxon must be more inclusive.".format(
+                        Rank.objects.all().get(sortOrder=self.rank.sortOrder).name.upper()
+                    ))
             except ObjectDoesNotExist:
                 raise ValidationError("Taxon must have a rank. This is a required field.")
 
