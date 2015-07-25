@@ -1,8 +1,12 @@
 from django.views.generic.edit import CreateView
+from django.views.generic import TemplateView
 from taxonomy.forms import TaxonForm
 from taxonomy.models import Taxon
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
+
+class TaxonList(TemplateView):
+    template_name = 'taxa_list.html'
 
 class AddTaxa(CreateView):
     form_class = TaxonForm

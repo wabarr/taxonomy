@@ -31,11 +31,16 @@ class TaxonList(viewsets.ModelViewSet):
 
 
 class FullTaxonHierarchySerializer(serializers.HyperlinkedModelSerializer):
-    fullTaxonomy = serializers.CharField()
-
+    taxClass = serializers.CharField()
+    order = serializers.CharField()
+    family = serializers.CharField()
+    subfamily = serializers.CharField()
+    tribe = serializers.CharField()
+    genus = serializers.CharField()
+    species = serializers.CharField()
     class Meta:
         model = Taxon
-        fields = ('id','fullTaxonomy')
+        fields = ('id','taxClass','order','family','subfamily','tribe','genus','species')
 
 class FullTaxonHierarchyList(viewsets.ModelViewSet):
     serializer_class = FullTaxonHierarchySerializer

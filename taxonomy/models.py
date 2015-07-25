@@ -67,7 +67,7 @@ class Taxon(models.Model):
     def taxClass(self):
         fullTaxDict = self.fullTaxonomy()
         try:
-            taxClass = Taxon.objects.get(rank__name="taxClass", name=fullTaxDict["taxClass"])
+            taxClass = Taxon.objects.get(rank__name="class", name=fullTaxDict["class"])
         except:
             taxClass = None
         return taxClass

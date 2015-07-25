@@ -1,0 +1,76 @@
+{% extends 'html5up_fractal_base.html' %}
+
+{% load staticfiles %}
+
+{% block extrastyles %}
+     <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css" />
+{% endblock %}
+
+{% block content %}
+    <section id="one" class="wrapper style2 special">
+    <header class="major">
+        <h2 id="addTaxaLabel">Taxa</h2>
+    </header>
+
+    <div class="row ">
+        <div class="12u ">
+            <table class="compact hover" id="search-table">
+            <thead>
+            <tr>
+                <td>id</td>
+                <td>taxClass</td>
+                <td>order</td>
+                <td>family</td>
+                <td>subfamily</td>
+                <td>tribe</td>
+                <td>genus</td>
+                <td>species</td>
+            </tr>
+            </thead>
+
+            </table>
+        </div>
+    </div>
+</section>
+{%  endblock %}
+
+
+
+{% block doc_load %}
+    <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+
+        makeDataTable(ajaxurl);
+    });
+
+    </script>
+
+{% endblock %}
+
+{% block extrascripts %}
+    <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+    <script>
+        var ajaxurl = '/API/full_taxon_hierarchy/?format=json'
+
+            function makeDataTable(ajaxurl) {
+                searchtable = $("#search-table").DataTable({
+                    "ajax": {
+                        "url": ajaxurl,
+                        "dataSrc": ""
+                    } ,
+                    "columns": [
+                        { "data": "id" },
+                        { "data": "taxClass" },
+                        { "data": "order" },
+                        { "data": "family" },
+                        { "data": "subfamily" },
+                        { "data": "tribe" },
+                        { "data": "genus" },
+                        { "data": "species" }
+                        ]
+
+                });
+            };
+    </script>
+{% endblock %}
+

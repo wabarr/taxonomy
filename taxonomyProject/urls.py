@@ -9,6 +9,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/lookups/', include(ajax_select_urls)),
     url(r'^API/', include(API_urls)),
-    url(r'^home/', include(taxonomy_urls)),
+    url(r'^taxa/', include(taxonomy_urls)),
 
 ]
