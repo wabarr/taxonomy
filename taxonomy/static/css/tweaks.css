@@ -15,3 +15,8 @@
     padding-left:25px;
     padding-right:25px;
 }
+
+tr:hover td {
+   background-color: #4696e5;
+   color: white;
+}
