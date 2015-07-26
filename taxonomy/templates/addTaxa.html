@@ -6,6 +6,14 @@
     <link rel="stylesheet" href={% static "ajax_select/css/ajax_select.css" %} />
 {% endblock %}
 
+{% block doc_load %}
+<script>
+document.addEventListener("DOMContentLoaded", function(event) {
+    $("#id_name").focus();
+})
+</script>
+
+{% endblock %}
 
 {% block content %}
 <!-- Header -->
