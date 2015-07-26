@@ -78,6 +78,14 @@
              "columnDefs": [
                 { "visible": false, "targets": 0 }
              ],
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                // Bind click event
+                $(nRow).click(function() {
+                      window.open('/admin/taxonomy/taxon/' + aData["id"] + "/");
+                });
+
+                return nRow;
+           }
         });
         setInterval( function () {
             searchtable.ajax.reload();
