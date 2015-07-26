@@ -1,4 +1,5 @@
 {% extends "html5up_fractal_base.html" %}
+
 {% load staticfiles %}
 
 {% block extrastyles %}
@@ -8,14 +9,12 @@
 
 
 {% block content %}
-<!-- Header -->
+    <section id="one" class="wrapper style2 special">
+        <header class="major">
+            <h2 id="addTaxaLabel">Update Taxon</h2>
+        </header>
 
-		<!-- One -->
-			<section id="one" class="wrapper style2 special">
-				<header class="major">
-					<h2 id="addTaxaLabel">Add Taxa</h2>
-				</header>
-				<form id="entryform" method="post">
+        <form id="entryform" method="post">
                     <div class="row uniform"><div class="12u">{{ form.non_field_errors }}</div></div>
                     <div class="row uniform paddedsides">{% csrf_token %}
 
@@ -50,13 +49,12 @@
                         <div class="2u"></div>
                         <div class="8u">
                             <ul class="actions">
-                                <li><input type="submit" value="Submit" class="special button big" /></li>
+                                <li><input type="submit" value="Update Taxon" class="special button big" /></li>
                             </ul>
                         </div>
                         <div class="2u"></div>
                     </div>
 				</form>
-			</section>
 {% endblock %}
 
 {% block extrascripts %}

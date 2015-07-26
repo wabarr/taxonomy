@@ -81,7 +81,7 @@
             "fnRowCallback": function (nRow, aData, iDisplayIndex) {
                 // Bind click event
                 $(nRow).click(function() {
-                      window.open('/admin/taxonomy/taxon/' + aData["id"] + "/");
+                      window.open('/update/' + aData["id"] + "/");
                 });
 
                 return nRow;

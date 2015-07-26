@@ -1,4 +1,4 @@
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView
 from taxonomy.forms import TaxonForm
 from taxonomy.models import Taxon
@@ -8,10 +8,19 @@ from django.utils.decorators import method_decorator
 class TaxonList(TemplateView):
     template_name = 'taxa_list.html'
 
+class ChangeTaxon(UpdateView):
+    template_name = 'changeTaxon.html'
+    model = Taxon
+    form_class = TaxonForm
+
+    @method_decorator(permission_required("Taxon.can_change", "/admin/login/"))
+    def dispatch(self, *args, **kwargs):
+        return super(ChangeTaxon, self).dispatch(*args, **kwargs)
+
 class AddTaxa(CreateView):
     form_class = TaxonForm
     template_name = 'addTaxa.html'
-    success_url = '/taxa/add/'
+    success_url = '/add/'
 
     def get_initial(self):
 
