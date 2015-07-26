@@ -21,6 +21,14 @@
     </head>
 	<body id="top">
 
+        <section id="two" class="wrapper">
+				<div class="inner alt">
+                    <ul class="actions">
+					<li><a href= '{% url 'add-taxon' %}' class="button special icon fa-plus-circle">Add Taxa</a></li>
+					<li><a href= '{% url 'taxon-list' %}' class="button special icon fa-list">View Taxa</a></li>
+				</ul>
+                </div>
+        </section>
 		{% block content %}{% endblock %}
         {% comment %}
 		<!-- Two -->
