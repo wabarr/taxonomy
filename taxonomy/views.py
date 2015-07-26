@@ -5,18 +5,23 @@ from taxonomy.models import Taxon
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.urlresolvers import reverse
 
 class TaxonList(TemplateView):
     template_name = 'taxa_list.html'
 
-class ChangeTaxon(UpdateView):
+class ChangeTaxon(SuccessMessageMixin, UpdateView):
     template_name = 'changeTaxon.html'
     model = Taxon
     form_class = TaxonForm
+    success_message = "Successfully edited this taxon."
 
     @method_decorator(permission_required("Taxon.can_change", "/admin/login/"))
     def dispatch(self, *args, **kwargs):
         return super(ChangeTaxon, self).dispatch(*args, **kwargs)
+
+    def get_success_url(self):
+        return reverse("change-taxon", args=[self.object.id])
 
 class AddTaxa(SuccessMessageMixin, CreateView):
     form_class = TaxonForm
