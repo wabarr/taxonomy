@@ -16,6 +16,17 @@
 					<h2 id="addTaxaLabel">Add Taxa</h2>
 				</header>
 				<form id="entryform" method="post">
+                    <div class="row uniform">
+                    <div class="12u">
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    </div>
+                    </div>
                     <div class="row uniform"><div class="12u">{{ form.non_field_errors }}</div></div>
                     <div class="row uniform paddedsides">{% csrf_token %}
 

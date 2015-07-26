@@ -4,6 +4,7 @@ from taxonomy.forms import TaxonForm
 from taxonomy.models import Taxon
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
+from django.contrib.messages.views import SuccessMessageMixin
 
 class TaxonList(TemplateView):
     template_name = 'taxa_list.html'
@@ -17,10 +18,11 @@ class ChangeTaxon(UpdateView):
     def dispatch(self, *args, **kwargs):
         return super(ChangeTaxon, self).dispatch(*args, **kwargs)
 
-class AddTaxa(CreateView):
+class AddTaxa(SuccessMessageMixin, CreateView):
     form_class = TaxonForm
     template_name = 'addTaxa.html'
     success_url = '/add/'
+    success_message = "Success!"
 
     def get_initial(self):
 
@@ -50,3 +52,7 @@ class AddTaxa(CreateView):
     @method_decorator(permission_required("Taxon.can_add", "/admin/login/"))
     def dispatch(self, *args, **kwargs):
         return super(AddTaxa, self).dispatch(*args, **kwargs)
+
+    def get_success_message(self, cleaned_data):
+        #  cleaned_data is the cleaned data from the form which is used for string formatting
+        return "{0} was succesfully added".format(self.object)

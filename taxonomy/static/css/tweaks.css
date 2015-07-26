@@ -1,3 +1,15 @@
+.messages {
+    list-style-type: none;
+    text-align: center;
+}
+
+.success {
+    background-color: #36c50e;
+    color:white;
+    list-style-type: none;
+    border-radius: 3px;
+}
+
 .errorlist {
     color: #c50a01;
     list-style-type: none;
