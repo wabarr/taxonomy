@@ -115,7 +115,7 @@ class Taxon(models.Model):
     def species(self):
         fullTaxDict = self.fullTaxonomy()
         try:
-            species = Taxon.objects.get(rank__name="species", name=fullTaxDict["species"])
+            species = Taxon.objects.get(rank__name="species", name=fullTaxDict["species"], parent__name=fullTaxDict["genus"])
         except:
             species = None
         return species
