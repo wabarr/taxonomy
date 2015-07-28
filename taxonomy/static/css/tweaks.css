@@ -10,12 +10,19 @@
     border-radius: 3px;
 }
 
-.errorlist {
+.warning {
+    color:#000000;
+    list-style-type: none;
+    border-radius: 3px;
+    background-color: #FFFF00;;
+}
+
+.errorlist{
     color: #c50a01;
     list-style-type: none;
 }
 
-.nonfield {
+.nonfield, .error {
 
     background-color: #c50a01;
     color: white;
@@ -31,4 +38,8 @@
 tr:hover td {
    background-color: #4696e5;
    color: white;
+}
+
+thead td {
+    font-weight:bold;
 }

@@ -5,7 +5,10 @@ from taxonomy.models import Taxon
 from django.contrib.auth.decorators import permission_required
 from django.utils.decorators import method_decorator
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response, HttpResponseRedirect, RequestContext
+from django.forms.models import modelform_factory
 
 class TaxonList(TemplateView):
     template_name = 'taxa_list.html'
@@ -22,6 +25,36 @@ class ChangeTaxon(SuccessMessageMixin, UpdateView):
 
     def get_success_url(self):
         return reverse("change-taxon", args=[self.object.id])
+
+def bulk_update(request):
+    ids = request.GET.get("ids", "")
+    qst = Taxon.objects.filter(id__in=ids.split(','))
+    # we can't use our existing TaxonForm, because it has ajaxselects fields and they screw it up
+    basicTaxonForm = modelform_factory(Taxon, exclude=[])
+    if request.method == 'POST':
+        updatedFieldName = [key for key in request.POST.keys() if not "_text" in key if not "csrf" in key]
+        updatedFieldName = updatedFieldName[0]
+        for taxon in qst:
+            try:
+                templateForm = basicTaxonForm(instance=taxon)
+                newData = templateForm.initial
+                newData[updatedFieldName] = request.POST.get(updatedFieldName,None)
+                theForm = basicTaxonForm(instance=taxon, data=newData)
+
+                if theForm.is_valid():
+                    theForm.save()
+                else:
+                    messages.error(request, "Form did not validate. Check your entry.")
+                    return HttpResponseRedirect(request.get_full_path())
+            except:
+                messages.error(request, "There was an exception. Object hasn't been saved, but you are exceptional.")
+                return HttpResponseRedirect(request.get_full_path())
+        messages.success(request, "Successfully updated {0} taxa".format(len(qst)))
+        return HttpResponseRedirect("/admin/taxonomy/taxon/")
+    else:
+        return render_to_response('bulk_update.html',
+                                  {'form': TaxonForm(), "queryset": qst},
+                                  context_instance=RequestContext(request))
 
 class AddTaxa(SuccessMessageMixin, CreateView):
     form_class = TaxonForm

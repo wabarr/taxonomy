@@ -1,0 +1,109 @@
+{% extends "html5up_fractal_base.html" %}
+
+{% load staticfiles %}
+
+{% block extrastyles %}
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href={% static "ajax_select/css/ajax_select.css" %} />
+{% endblock %}
+
+{% block doc_load %}
+   <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+        $("[id^=id]").focus(function(){
+             var activeField = $ ( this )
+             var clickedID = $( this ).attr("id")
+                if (clickedID.indexOf("_text") > 0) { // if the id contains the string '_text' get the parent
+                    activeField = $( this ).parent()
+             };
+
+            var activeFieldBaseName = activeField.attr("id").split("_")[1]
+            console.log($("[id*=" + activeFieldBaseName + "]"));
+            $("[id^=id]").not($("[id*=" + activeFieldBaseName + "]")).remove()
+        });
+    });
+   </script>
+{% endblock %}
+
+{% block content %}
+    <section id="one" class="wrapper style2 special">
+        <header class="major">
+            <h2 id="addTaxaLabel">You are about to bulk update {{ queryset.count }} taxa.</h2>
+            <div class="row uniform paddedsides">
+                <div class="12u">
+                    <table>
+                        <thead><td>ID</td><td>name</td><td>rank</td><td>parent</td><td>ref</td></thead>
+                        <tbody>
+                            {% for each in queryset %}
+                                <tr><td>{{ each.id }}</td> <td>{{ each.name }} </td> <td>{{ each.rank }} </td> <td>{{ each.parent }}</td> <td>{{ each.ref }}</td></tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </header>
+            <div class="row paddedsides">
+                    <div class="12u warning">
+                        You can only update a single field at a time with this form.
+                    </div>
+                </div>
+        <form id="entryform" method="post">
+
+
+                    <div class="row uniform">
+                    <div class="12u">
+                        {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                    </div>
+                    </div>
+                    <div class="row uniform"><div class="12u">{{ form.non_field_errors }}</div></div>
+                    <div class="row uniform paddedsides">{% csrf_token %}
+
+                        <div class="3u">
+                            <label for="{{ form.name.id_for_label }}">Taxon:</label>
+                            {{ form.name }}
+                            {{ form.name.errors }}
+                        </div>
+                        <div class="2u">
+                            <label for="{{ form.parent.id_for_label }}">Parent:</label>
+                            {{ form.parent }}
+                            {{ form.parent.errors }}
+                        </div>
+                        <div class="3u">
+                            <label for="{{ form.ref.id_for_label }}">Reference:</label>
+                            {{ form.ref }}
+                            {{ form.ref.errors }}
+                        </div>
+                        <div class="2u">
+                            <label for="{{ form.rank.id_for_label }}">Rank:</label>
+                            {{ form.rank }}
+                            {{ form.rank.errors }}
+                        </div>
+                        <div class="2u">
+                            <label for="{{ form.extant.id_for_label }}">Extant?:</label>
+                            {{ form.extant }}
+                            {{ form.extant.errors }}
+                        </div>
+
+                    </div>
+                    <div class="row uniform">
+                        <div class="2u"></div>
+                        <div class="8u">
+                            <ul class="actions">
+                                <li><input type="submit" value="Update Taxa" class="special button big" /></li>
+                            </ul>
+                        </div>
+                        <div class="2u"></div>
+                    </div>
+				</form>
+{% endblock %}
+
+{% block extrascripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src={% static "ajax_select/js/ajax_select.js" %}> </script>
+{% endblock %}

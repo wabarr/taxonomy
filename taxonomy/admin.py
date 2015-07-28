@@ -4,6 +4,7 @@ from ajax_select import make_ajax_form
 from ajax_select.admin import AjaxSelectAdmin
 from django.contrib.admin import SimpleListFilter
 from django.contrib.admin.views import main
+from django.http import HttpResponseRedirect
 
 class OrderFilter(SimpleListFilter):
     title = 'order'
@@ -38,16 +39,30 @@ class RankAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "sortOrder", "parent"]
     list_editable = ["name", "sortOrder", "parent"]
 
+
+
+def bulk_update(modeladmin, request, queryset):
+    selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)
+    return HttpResponseRedirect("/bulk_update/?ids=%s" % (",".join(selected)))
+
+bulk_update.short_description = "Bulk update selected records"
+
 class TaxonAdmin(AjaxSelectAdmin):
     search_fields = ('name',)
     list_editable = ["extant",]
     list_display =  ["order", "family", "subfamily", "tribe", "genus", "species", "extant"]
     list_filter = ['rank',OrderFilter,FamilyFilter]
     form = make_ajax_form(Taxon, {"parent":"taxonLookup"})
+    actions = [bulk_update]
 
     def __init__(self,*args,**kwargs):
         super(TaxonAdmin, self).__init__(*args, **kwargs)
         main.EMPTY_CHANGELIST_VALUE = '-'
+
+
+
+
+
 
 
 admin.site.register(Taxon, TaxonAdmin)
