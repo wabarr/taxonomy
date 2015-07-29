@@ -48,7 +48,7 @@ def bulk_update(modeladmin, request, queryset):
 bulk_update.short_description = "Bulk update selected records"
 
 class TaxonAdmin(AjaxSelectAdmin):
-    search_fields = ('name',)
+    search_fields = ('name','commonName')
     list_editable = ["extant",]
     list_display =  ["order", "family", "subfamily", "tribe", "genus", "species", "extant"]
     list_filter = ['rank',OrderFilter,FamilyFilter]

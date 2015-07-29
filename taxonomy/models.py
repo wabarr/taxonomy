@@ -32,6 +32,7 @@ class Taxon(models.Model):
     extant = models.NullBooleanField(default=True)
     notes = models.TextField(null=True, blank=True)
     lastModified = models.DateTimeField(auto_now=True, null=True)
+    commonName = models.CharField(max_length=100, null=True, blank=True)
     objects = TaxonManager()
     def __unicode__(self):
         #return self.name + " (" + str(self.rank).upper() + ")"
