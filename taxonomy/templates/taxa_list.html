@@ -41,6 +41,10 @@
     document.addEventListener("DOMContentLoaded", function(event) {
 
         makeDataTable(ajaxurl);
+        $('#search-table tbody').on('click', 'tr', function () {
+            var id = $('td', this).eq(0).text();
+            window.open("/update/" + id + "/");
+    } );
     });
 
     </script>
@@ -75,18 +79,7 @@
 
                         "sZeroRecords": "Nobody home, sorry!",
             },
-             "columnDefs": [
-                { "visible": false, "targets": 0 }
-             ],
-            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                // Bind click event
-                $(nRow).click(function() {
-                      window.open('/update/' + aData["id"] + "/");
-                });
-
-                return nRow;
-           }
-        });
+           });
         setInterval( function () {
             searchtable.ajax.reload();
         }, 10000 );
