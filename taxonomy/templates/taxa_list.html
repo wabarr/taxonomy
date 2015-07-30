@@ -45,9 +45,6 @@
             var id = $('td', this).eq(0).text();
             window.open("/update/" + id + "/");
         });
-        $("#search-table").on('preXhr.dt', function(e, settings, processing){
-            $(".dataTables_empty").css("background-color", "red");
-        });
     });
 
     </script>
